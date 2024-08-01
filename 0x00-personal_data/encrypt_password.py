@@ -4,6 +4,7 @@ This module contains the function to hash passwords.
 """
 import bcrypt
 
+
 def hash_password(password: str) -> bytes:
     """
     Hash a password with a random salt.
