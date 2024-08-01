@@ -9,6 +9,9 @@ def filter_datum(fields, redaction, message, separator):
     """
     This function filters the data from the log message.
     """
-    return re.sub(f"({'|'.join(fields)})=[^{separator}]*",
-                  lambda x: x.group(0).split('=')[0] + '=' + redaction,
-                  message)
+    new_str = message
+    for p in re.split(";", new_str):
+        field = re.split("=", p)
+        if field[0] in fields:
+            new_str = re.sub(f"{field[0]}={field[1]}", f"{field[0]}={redaction}", new_str)
+    return new_str
