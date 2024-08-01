@@ -72,3 +72,31 @@ def get_db() -> mysql.connector.connection.MYSQLConnection:
         host=host,
         database=database
     )
+
+
+def main():
+    """
+    Main function to obtain a database connection,
+    retrieve all rows in the users table,
+    and display each row under a filtered format.
+    """
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+
+    logger = get_logger()
+
+    fields = cursor.column_names
+    for row in cursor:
+        record = "; ".join(f"{field}={value}" for field,
+                           value in zip(fields, row)) + ";"
+        log_record = logging.LogRecord("user_data", logging.INFO,
+                                       None, None, record, None, None)
+        logger.handle(log_record)
+
+    cursor.close()
+    db.close()
+
+
+if __name__ == "__main__":
+    main()
