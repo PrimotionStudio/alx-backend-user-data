@@ -34,3 +34,13 @@ def unauthorized():
     - 401 Unauthorized
     """
     abort(401, description="Unauthorized Access")
+
+
+@app_views.route('/forbidden/', strict_slashes=False)
+def forbidden():
+    """
+    This endpoint must raise a 403 error by using abort
+    Return:
+    - 401 Forbidden
+    """
+    abort(403, description="Forbidden Access")
