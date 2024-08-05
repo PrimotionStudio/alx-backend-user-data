@@ -15,13 +15,13 @@ class Auth:
         This function checks if a path requires authentication
         """
         return False
-    
+
     def authorization_header(self, request=None) -> str:
         """
         This function gets the authorization header from a request
         """
         return None
-    
+
     def current_user(self, request=None) -> TypeVar('User'):
         """
         This function gets the current user from a request
