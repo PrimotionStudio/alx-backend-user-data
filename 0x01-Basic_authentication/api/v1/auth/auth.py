@@ -4,6 +4,16 @@ This module contains authentication functions
 """
 from flask import request
 from typing import List, TypeVar
+from markupsafe import escape
+
+
+def slash_tolerant(path: str) -> str:
+    """
+    This function takes a path and returns a slash-tolerant version of it
+    """
+    if not escape(path).endswith("/"):
+        return escape(path) + "/"
+    return escape(path)
 
 
 class Auth:
@@ -14,7 +24,15 @@ class Auth:
         """
         This function checks if a path requires authentication
         """
-        return False
+        excluded_paths = [slash_tolerant(pth) for pth in excluded_paths]
+        path = slash_tolerant(path)
+        if path is None:
+            return True
+        if excluded_paths is None or excluded_paths == []:
+            return True
+        if path in excluded_paths:
+            return False
+        return True
 
     def authorization_header(self, request=None) -> str:
         """
