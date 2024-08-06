@@ -24,12 +24,12 @@ class Auth:
         """
         This function checks if a path requires authentication
         """
-        excluded_paths = [slash_tolerant(pth) for pth in excluded_paths]
         path = slash_tolerant(path)
         if path is None:
             return True
         if excluded_paths is None or excluded_paths == []:
             return True
+        excluded_paths = [slash_tolerant(pth) for pth in excluded_paths]
         if path in excluded_paths:
             return False
         return True
