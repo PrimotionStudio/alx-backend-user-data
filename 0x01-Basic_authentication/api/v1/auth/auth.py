@@ -11,8 +11,10 @@ def slash_tolerant(path: str) -> str:
     """
     This function takes a path and returns a slash-tolerant version of it
     """
-    if not escape(path).endswith("/"):
-        return escape(path) + "/"
+    if escape(path).endswith("/"):
+        return escape(path)[:-1]
+    if escape(path).endswith("*"):
+        return escape(path)[:-1]
     return escape(path)
 
 
