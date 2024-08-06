@@ -58,7 +58,7 @@ class BasicAuth(Auth):
         pwd = ""
         for p in auth_obj[1:]:
             pwd += p
-        return auth_obj[0], p
+        return auth_obj[0], pwd
 
     def user_object_from_credentials(self, user_email, user_pwd):
         """
