@@ -2,6 +2,7 @@
 """
 basic authentication
 """
+import binascii
 from base64 import b64decode
 from .auth import Auth
 
