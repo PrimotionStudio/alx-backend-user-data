@@ -9,13 +9,17 @@ from markupsafe import escape
 
 def slash_tolerant(path: str) -> str:
     """
-    This function takes a path and returns a slash-tolerant version of it
+    This function takes a path and
+    returns a slash-tolerant version of it
     """
-    if escape(path).endswith("/"):
-        return escape(path)[:-1]
-    if escape(path).endswith("*"):
-        return escape(path)[:-1]
-    return escape(path)
+    p = escape(path)
+    if p.endswith("*"):
+        p = p[:-1]
+    if p.endswith("/"):
+        p = p[:-1]
+    if p.endswith("*"):
+        p = p[:-1]
+    return p
 
 
 class Auth:
