@@ -24,7 +24,6 @@ if "basic_auth" == auth_type:
     auth = BasicAuth()
 if "session_auth" == auth_type:
     auth = SessionAuth()
-    
 
 
 @app.errorhandler(401)
