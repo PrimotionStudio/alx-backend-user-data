@@ -19,6 +19,22 @@ def view_all_users() -> str:
     return jsonify(all_users)
 
 
+@app_views.route('/users/me', methods=['GET'], strict_slashes=False)
+def view_me() -> str:
+    """
+    GET /api/v1/users/me
+    Return:
+    - JSON representation of the current user
+    """
+    b_auth = BasicAuth()
+    header = dict(request.headers)
+    auth_header = b_auth.extract_base64_authorization_header(header["Authorization"])
+    decoded_header = b_auth.decode_base64_authorization_header(auth_header)
+    email, pwd = b_auth.extract_user_credentials(decoded_header)
+    user_obj = b_auth.user_object_from_credentials(email, pwd)
+    return jsonify(user_obj.to_json())
+
+
 @app_views.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
 def view_one_user(user_id: str = None) -> str:
     """ GET /api/v1/users/:id
@@ -30,10 +46,6 @@ def view_one_user(user_id: str = None) -> str:
     """
     if user_id is None:
         abort(404)
-    if user_id == "me" and request.current_user is None:
-        abort(404)
-    if user_id == "me" and request.current_user is not None:
-        return jsonify(request.current_user.to_json())
     user = User.get(user_id)
     if user is None:
         abort(404)
