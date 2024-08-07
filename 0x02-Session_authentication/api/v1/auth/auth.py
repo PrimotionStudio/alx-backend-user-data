@@ -13,11 +13,7 @@ def slash_tolerant(path: str) -> str:
     returns a slash-tolerant version of it
     """
     p = escape(path)
-    if p.endswith("*"):
-        p = p[:-1]
     if p.endswith("/"):
-        p = p[:-1]
-    if p.endswith("*"):
         p = p[:-1]
     return p
 
@@ -38,6 +34,12 @@ class Auth:
         excluded_paths = [slash_tolerant(pth) for pth in excluded_paths]
         if path in excluded_paths:
             return False
+        # iterate thru for *
+        for pth in excluded_paths:
+            if pth[-1] == "*":
+                p_len = len(pth[:-1])
+                if path[:p_len] == pth[:-1]:
+                    return False
         return True
 
     def authorization_header(self, request=None) -> str:
