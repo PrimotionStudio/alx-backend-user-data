@@ -8,6 +8,7 @@ from flask import Flask, jsonify, abort, request
 from flask_cors import (CORS, cross_origin)
 from api.v1.auth.auth import Auth, slash_tolerant
 from api.v1.auth.basic_auth import BasicAuth
+from api.v1.views.session_auth import SessionAuth
 import os
 
 
@@ -21,6 +22,9 @@ if "auth" == auth_type:
     auth = Auth()
 if "basic_auth" == auth_type:
     auth = BasicAuth()
+if "session_auth" == auth_type:
+    auth = SessionAuth()
+    
 
 
 @app.errorhandler(401)
