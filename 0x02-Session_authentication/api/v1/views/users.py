@@ -27,9 +27,9 @@ def view_me() -> str:
     - JSON representation of the current user
     """
     b_auth = BasicAuth()
-    header = dict(request.headers)
-    auth_header = b_auth.extract_base64_authorization_header(header["Authorization"])
-    decoded_header = b_auth.decode_base64_authorization_header(auth_header)
+    h = dict(request.headers)
+    auth_ = b_auth.extract_base64_authorization_header(h["Authorization"])
+    decoded_header = b_auth.decode_base64_authorization_header(auth_)
     email, pwd = b_auth.extract_user_credentials(decoded_header)
     user_obj = b_auth.user_object_from_credentials(email, pwd)
     return jsonify(user_obj.to_json())
