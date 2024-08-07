@@ -58,6 +58,7 @@ def authenticate_user():
                 abort(401, description="Unauthorized access")
             if auth.current_user(request) is None:
                 abort(403, description="Forbidden access")
+            # request.current_user = auth.current_user(request)
 
 
 if __name__ == "__main__":
