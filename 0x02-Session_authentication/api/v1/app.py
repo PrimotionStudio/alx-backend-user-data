@@ -9,6 +9,7 @@ from flask_cors import (CORS, cross_origin)
 from api.v1.auth.auth import Auth, slash_tolerant
 from api.v1.auth.basic_auth import BasicAuth
 from api.v1.auth.session_auth import SessionAuth
+from api.v1.auth.session_exp_auth import SessionExpAuth
 import os
 
 
@@ -24,6 +25,8 @@ if "basic_auth" == auth_type:
     auth = BasicAuth()
 if "session_auth" == auth_type:
     auth = SessionAuth()
+if "session_exp_auth" == auth_type:
+    auth = SessionExpAuth()
 
 
 @app.errorhandler(401)
