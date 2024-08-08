@@ -2,9 +2,14 @@
 """
 This module contains authentication functions
 """
+from os import getenv
 from flask import request
 from typing import List, TypeVar
 from markupsafe import escape
+from pprint import pprint
+
+
+cookie = getenv('SESSION_NAME')
 
 
 def slash_tolerant(path: str) -> str:
@@ -55,3 +60,10 @@ class Auth:
         This function gets the current user from a request
         """
         return None
+
+    def session_cookie(self, request=None):
+        """
+        returns the cookie from a request"""
+        if request is None:
+            return None
+        return request.cookies.get(cookie)
