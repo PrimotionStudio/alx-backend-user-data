@@ -31,4 +31,4 @@ class User(Base):
     email = Column("email", VARCHAR(250), nullable=False)
     hashed_password = Column("hashed_password", VARCHAR(250), nullable=False)
     session_id = Column("session_id", VARCHAR(250), nullable=True)
-    reset_token = Column("reset_token", VARCHAR(250), nullable=False)
+    reset_token = Column("reset_token", VARCHAR(250), nullable=True)
