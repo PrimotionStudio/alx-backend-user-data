@@ -8,10 +8,10 @@ AUTH = Auth()
 app = Flask(__name__)
 
 
-@app.route("/")
+@app.route("/", methods=["GET"], strict_slashes=False)
 def bienvenue():
     """bienvenue"""
-    return jsonify({"message": "Bienvenue"}), 200
+    return jsonify({"message": "Bienvenue"})
 
 
 @app.route("/users", methods=["POST"], strict_slashes=False)
@@ -22,7 +22,7 @@ def users() -> str:
     try:
         AUTH.register_user(email, password)
         msg = {"email": f"{email}", "message": "user created"}
-        return jsonify(msg), 201
+        return jsonify(msg)
     except Exception:
         return jsonify({"message": "email already registered"}), 400
 
