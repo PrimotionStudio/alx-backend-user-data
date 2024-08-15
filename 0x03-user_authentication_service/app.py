@@ -56,10 +56,20 @@ def logout() -> str:
         if user:
             AUTH.destroy_session(session_id)
             return redirect("/")
-        else:
-            return jsonify({"message": "session does not exist"}), 403
-    else:
-        return jsonify({"message": "no session id"}), 403
+    return jsonify({"message": "no session or invalid id"}), 403
+
+
+@app.route("/profile", methods=["GET"], strict_slashes=False)
+def profile() -> str:
+    """
+    function to responde to the profile route
+    """
+    session_id = request.cookies.get("session_id")
+    if session_id:
+        user = AUTH.get_user_from_session_id(session_id)
+        if user:
+            return jsonify({"email": user.email}), 200
+    return jsonify({"message": "no session or invalid id"}), 403
 
 
 if __name__ == "__main__":
