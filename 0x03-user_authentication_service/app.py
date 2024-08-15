@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """a simple flask app"""
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, redirect
 from auth import Auth
 
 
@@ -49,14 +49,23 @@ def logout() -> str:
     """
     In this task, you will implement a logout
     function to respond to the DELETE /sessions route.
+    The request is expected to contain the
+    session ID as a cookie with key session_id.
+    Find the user with the requested session ID.
+    If the user exists destroy the session and redirect
+    the user to GET /. If the user does not exist,
+    respond with a 403 HTTP status.
     """
     session_id = request.cookies.get("session_id")
-    user = AUTH.get_user_from_session_id(session_id)
-    if user:
-        AUTH.destroy_session(session_id)
-        return redirect("/")
+    if session_id:
+        user = AUTH.get_user_from_session_id(session_id)
+        if user:
+            AUTH.destroy_session(session_id)
+            return redirect("/")
+        else:
+            return jsonify({"message": "session does not exist"}), 403
     else:
-        abort(403)
+        return jsonify({"message": "no session id"}), 403
 
 
 if __name__ == "__main__":
