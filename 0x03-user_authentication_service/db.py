@@ -32,7 +32,7 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str) -> TypeVar("User"):
+    def add_user(self, email: str, hashed_password: str) -> User:
         """add a user object to db"""
         try:
             user = User(email=email, hashed_password=hashed_password)
@@ -43,7 +43,7 @@ class DB:
             self._session.rollback()
         return user
 
-    def find_user_by(self, **kwargs) -> TypeVar("User"):
+    def find_user_by(self, **kwargs) -> User:
         """finds a user in db"""
         try:
             user = self._session.query(User).filter_by(**kwargs).one()
@@ -52,3 +52,7 @@ class DB:
             raise NoResultFound
         except InvalidRequestError:
             raise InvalidRequestError
+
+    def update_user(self, user_id, **kwargs) -> User:
+        """"""
+        pass
