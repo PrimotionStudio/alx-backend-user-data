@@ -32,7 +32,11 @@ class DB:
 
     def add_user(self, email: str, hashed_password: str) -> TypeVar("User"):
         """add a user object to db"""
-        user = User(email=email, hashed_password=hashed_password)
-        self._session.add(user)
-        self._session.commit()
+        try:
+            user = User(email=email, hashed_password=hashed_password)
+            self._session.add(user)
+            self._session.commit()
+        except Exception:
+            user = None
+            self._session.rollback()
         return user
