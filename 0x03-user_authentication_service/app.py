@@ -15,12 +15,12 @@ def bienvenue():
 
 
 @app.route("/users", methods=["POST"], strict_slashes=False)
-def users():
+def users() -> str:
     """create a new user using the AUTH module"""
     email = request.form.get("email")
     password = request.form.get("password")
     try:
-        user = AUTH.register_user(email, password)
+        AUTH.register_user(email, password)
         msg = {"email": f"{email}", "message": "user created"}
         return jsonify(msg), 201
     except Exception:
