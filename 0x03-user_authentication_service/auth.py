@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """hashes a pasword with bcrypt"""
-from bcrypt import hashpw, gensalt
+from bcrypt import hashpw, gensalt, checkpw
 from sqlalchemy.orm.exc import NoResultFound
 from db import DB
 from user import User
@@ -28,3 +28,13 @@ class Auth:
             if not isinstance(password, bytes):
                 password = _hash_password(password)
             return self._db.add_user(email, password)
+
+    def valid_login(self, email, password):
+        """validate if input creedentials is correct"""
+        try:
+            user = self._db.find_user_by(email=email)
+            if not checkpw(password.encode("utf-8"), user.hashed_password):
+                return False
+        except NoResultFound:
+            return False
+        return True
