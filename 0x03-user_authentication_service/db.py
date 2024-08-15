@@ -62,5 +62,12 @@ class DB:
                     raise ValueError
                 setattr(user, k, v)
             self._session.commit()
-        except (ValueError, NoResultError, InvalidRequestError):
+        except ValueError as e:
             self._session.rollback()
+            raise e
+        except NoResultFound as e:
+            self._session.rollback()
+            raise e
+        except InvalidRequestError as e:
+            self._session.rollback()
+            raise e
