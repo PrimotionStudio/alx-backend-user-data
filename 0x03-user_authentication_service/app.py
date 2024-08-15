@@ -13,6 +13,7 @@ def bienvenue():
     """bienvenue"""
     return jsonify({"message": "Bienvenue"}), 200
 
+
 @app.route("/users", methods=["POST"], strict_slashes=False)
 def users():
     """create a new user using the AUTH module"""
